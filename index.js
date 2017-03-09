@@ -10,7 +10,7 @@ import moment from 'moment';
 import SunCalc from 'suncalc';
 import i18n from './locales/core';
 
-export default function(value, nominatim_object, optional_conf_parm) {
+export default function(value, nominatim_object, optional_conf_parm, override_with_holidays) {
     // short constants {{{
     var word_value_replacement = { // If the correct values can not be calculated.
         dawn    : 60 * 5 + 30,
@@ -2453,6 +2453,9 @@ export default function(value, nominatim_object, optional_conf_parm) {
      * :returns: Public or school holiday list.
      */
     function getMatchingHoliday(type_of_holidays) {
+        if (override_with_holidays != null) {
+            return override_with_holidays
+        }
         if (typeof location_cc === 'string') {
             if (holiday_definitions[location_cc]) {
                 if (typeof location_state === 'string'
